@@ -15,11 +15,37 @@ import model.entities.User;
 
 public class UserService {
 	
-	private static final String API_URL = "http://localhost:8080";
-
+	private static final String API_URL = "http://localhost:8080/users";
+	
+	public String signIn(User obj) {
+		try {
+			URL url = new URL(API_URL + "/signIn");
+			
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setDoOutput(true);
+			connection.setRequestProperty("Content-Type", "application/json");
+			
+			String requestBody = "{\"username\":\"" + obj.getUsername() + "\",\"password\":\"" + obj.getPassword() + "\"}";
+			
+			OutputStream outputStream = connection.getOutputStream();
+			DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+			dataOutputStream.writeBytes(requestBody);
+			dataOutputStream.flush();
+			dataOutputStream.close();
+			
+			String responseBody = readResponseBody(connection);
+			
+			return responseBody;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+	
 	public User login(String username, String password) {
 		try {
-			URL url = new URL(API_URL + "/users/login");
+			URL url = new URL(API_URL + "/login");
 			
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
@@ -35,6 +61,9 @@ public class UserService {
 			dataOutputStream.close();
 			
 			int responseCode = connection.getResponseCode();
+			if (responseCode > 299) {
+				return null;
+			}
 			String responseBody = readResponseBody(connection);
 			Gson gson = new GsonBuilder().create();
 			

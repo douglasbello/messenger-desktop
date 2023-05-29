@@ -9,16 +9,36 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 public class Main extends Application {
+	
+	private static Scene mainScene;
+	
+	private static Stage primaryStage;
+	
 	@Override
-	public void start(Stage stage) {
+	public void start(Stage primaryStage) {
 		try {
 			Parent parent = FXMLLoader.load(getClass().getResource("/gui/Login.fxml"));
-			Scene scene = new Scene(parent,400,400);
-			stage.setScene(scene);
-			stage.show();
+			mainScene = new Scene(parent);
+			primaryStage.setScene(mainScene);
+			primaryStage.setTitle("Login");
+			primaryStage.show();
+			
+			setPrimaryStage(primaryStage);
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static Scene getMainScene() {
+		return mainScene;
+	}
+	
+	public static void setPrimaryStage(Stage stage) {
+		primaryStage = stage;
+	}
+	
+	public static Stage getPrimaryStage() {
+		return primaryStage;
 	}
 	
 	public static void main(String[] args) {
