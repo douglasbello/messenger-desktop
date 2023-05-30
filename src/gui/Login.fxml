@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoginController">
    <left>
       <AnchorPane prefHeight="400.0" prefWidth="281.0" style="-fx-background-color: #fc7d2d;" BorderPane.alignment="CENTER">
@@ -32,7 +31,7 @@
             <FontAwesomeIcon fill="#fc7d2d" glyphName="USER" layoutX="62.0" layoutY="152.0" size="18px" />
             <FontAwesomeIcon fill="#fc7d2d" glyphName="KEY" layoutX="60.0" layoutY="208.0" size="18px" text="" />
             <Button fx:id="btnLogin" layoutX="123.0" layoutY="245.0" mnemonicParsing="false" onAction="#onBtnLoginAction" prefHeight="31.0" prefWidth="74.0" style="-fx-background-color: #fc7d2d;" text="Login" textFill="#dddddd" />
-            <Hyperlink layoutX="138.0" layoutY="350.0" text="Sign in" textFill="#fc7d2d" />
+            <Hyperlink fx:id="btnSignIn" layoutX="138.0" layoutY="350.0" onAction="#onHyperLinkBtnSignInAction" text="Sign in" textFill="#fc7d2d" />
             <FontAwesomeIcon fill="#fc7d2d" glyphName="USERS" layoutX="146.0" layoutY="76.0" size="26px" />
             <Label layoutX="118.0" layoutY="95.0" text="User Login" textFill="#fc7d2d">
                <font>

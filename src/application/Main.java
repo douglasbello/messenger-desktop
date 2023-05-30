@@ -33,6 +33,10 @@ public class Main extends Application {
 		return mainScene;
 	}
 	
+	public static void setScene(Scene scene) {
+		mainScene = scene;
+	}
+	
 	public static void setPrimaryStage(Stage stage) {
 		primaryStage = stage;
 	}
