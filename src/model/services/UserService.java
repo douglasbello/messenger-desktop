@@ -5,11 +5,14 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Set;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import model.entities.User;
 
@@ -35,6 +38,7 @@ public class UserService {
 	    
 	    int statusCode = connection.getResponseCode();
 	    
+	    connection.disconnect();
 	    return statusCode;
 	}
 
@@ -74,12 +78,32 @@ public class UserService {
 
 	}
 	
-	
-	
-	
-	
-	
-	
+	public Set<User> getAllFriendsFromUser(Integer userId, String userToken) {
+		try {
+			URL url = new URL(API_URL + "/" + userId + "/friends");
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			
+			connection.setRequestMethod("GET");
+			
+			String authorizationHeader = "Bearer " + userToken;
+			connection.setRequestProperty("Authorization", authorizationHeader);
+			
+			int statusCode = connection.getResponseCode();
+			
+			if (statusCode > 299) {
+				connection.disconnect();
+				return null;
+			} else {
+				String response = readResponseBody(connection);
+				Set<User> friends = transformResponseToUsers(response);
+				connection.disconnect();
+				return friends;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
     private static String readResponseBody(HttpURLConnection connection) throws IOException {
         StringBuilder responseBody = new StringBuilder();
@@ -87,10 +111,17 @@ public class UserService {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                responseBody.append(line + "\n");
+                responseBody.append(line);
             }
         }
 
         return responseBody.toString();
+    }
+    
+    private static Set<User> transformResponseToUsers(String response) {
+    	Gson gson = new Gson();
+        Type setType = new TypeToken<Set<User>>(){}.getType();
+        return gson.fromJson(response, setType);
+        
     }
 }

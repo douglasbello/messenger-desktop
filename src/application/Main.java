@@ -22,7 +22,6 @@ public class Main extends Application {
 			primaryStage.setScene(mainScene);
 			primaryStage.setTitle("Login");
 			primaryStage.show();
-			
 			setPrimaryStage(primaryStage);
 		} catch(IOException e) {
 			e.printStackTrace();

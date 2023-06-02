@@ -20,6 +20,8 @@ public class LoginController {
 	
 	private UserService userService = new UserService();
 	
+	private static User loggedUser = null;
+	
 	@FXML
 	private Button btnLogin;
 	
@@ -32,6 +34,10 @@ public class LoginController {
 	@FXML
 	private PasswordField passField;
 	
+	public static User getUser() {
+		return loggedUser;
+	}
+	
 	@FXML
 	public void onBtnLoginAction() {
 		String username = txtUsername.getText();
@@ -40,16 +46,17 @@ public class LoginController {
 		if (response == null) {
 			Alerts.showAlert("Incorrect credentials", null, "Username or password incorrect", AlertType.ERROR);
 		} else {
-			System.out.println(response);
+			loggedUser = response;
+			changeView("/gui/Main.fxml");
 		}	
 	}
 	
 	@FXML
 	public void onHyperLinkBtnSignInAction() {
-		changeToSignInView("/gui/SignIn.fxml");
+		changeView("/gui/SignIn.fxml");
 	}
 	
-	public void changeToSignInView(String path) {
+	public void changeView(String path) {
 		try {
 			Parent parent = FXMLLoader.load(getClass().getResource(path));
 			

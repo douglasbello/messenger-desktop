@@ -56,6 +56,8 @@ public class SignInController {
 		}
 		if (responseCode < 299) {
 			messageSucessLabel.setText("Account created successfully!");
+			txtFieldUsername.setText("");
+			passwordField.setText("");
 			return;
 		}
 		Alerts.showAlert("Username already in use!", null, "Username is already in use!", AlertType.ERROR);
