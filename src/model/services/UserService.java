@@ -20,26 +20,32 @@ public class UserService {
 	
 	private static final String API_URL = "http://localhost:8080/users";
 	
-	public int signIn(User obj) throws IOException {
-	    URL url = new URL(API_URL + "/signIn");
-	    
-	    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-	    connection.setRequestMethod("POST");
-	    connection.setDoOutput(true);
-	    connection.setRequestProperty("Content-Type", "application/json");
-	    
-	    String requestBody = "{\"username\":\"" + obj.getUsername() + "\",\"password\":\"" + obj.getPassword() + "\"}";
-	    
-	    OutputStream outputStream = connection.getOutputStream();
-	    DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
-	    dataOutputStream.writeBytes(requestBody);
-	    dataOutputStream.flush();
-	    dataOutputStream.close();
-	    
-	    int statusCode = connection.getResponseCode();
-	    
-	    connection.disconnect();
-	    return statusCode;
+	public int signIn(User obj) {
+		try {
+		    URL url = new URL(API_URL + "/signIn");
+		    
+		    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		    connection.setRequestMethod("POST");
+		    connection.setDoOutput(true);
+		    connection.setRequestProperty("Content-Type", "application/json");
+		    
+		    String requestBody = "{\"username\":\"" + obj.getUsername() + "\",\"password\":\"" + obj.getPassword() + "\"}";
+		    
+		    OutputStream outputStream = connection.getOutputStream();
+		    DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+		    dataOutputStream.writeBytes(requestBody);
+		    dataOutputStream.flush();
+		    dataOutputStream.close();
+		    
+		    int statusCode = connection.getResponseCode();
+		    
+		    connection.disconnect();
+		    return statusCode;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return 403;
+		}
+
 	}
 
 	

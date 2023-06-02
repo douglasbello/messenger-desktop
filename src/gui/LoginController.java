@@ -1,22 +1,27 @@
 package gui;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-import application.Main;
+import application.App;
 import gui.util.Alerts;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import model.entities.User;
 import model.services.UserService;
 
-public class LoginController {
+public class LoginController implements Initializable {
 	
 	private UserService userService = new UserService();
 	
@@ -38,6 +43,17 @@ public class LoginController {
 		return loggedUser;
 	}
 	
+	public static void setUser(User user) {
+		loggedUser = user;
+	}
+	
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		txtUsername.setOnKeyPressed(this::handleKeyPressed);
+		passField.setOnKeyPressed(this::handleKeyPressed);
+	}
+	
 	@FXML
 	public void onBtnLoginAction() {
 		String username = txtUsername.getText();
@@ -51,6 +67,12 @@ public class LoginController {
 		}	
 	}
 	
+	private void handleKeyPressed(KeyEvent event) {
+		if (event.getCode() == KeyCode.ENTER) {
+			btnLogin.fire();
+		}
+	}
+	
 	@FXML
 	public void onHyperLinkBtnSignInAction() {
 		changeView("/gui/SignIn.fxml");
@@ -62,10 +84,12 @@ public class LoginController {
 			
 			Scene newScene = new Scene(parent);
 			
-			Main.getPrimaryStage().setScene(newScene);
+			App.getPrimaryStage().setScene(newScene);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	
 }

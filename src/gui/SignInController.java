@@ -2,7 +2,7 @@ package gui;
 
 import java.io.IOException;
 
-import application.Main;
+import application.App;
 import gui.util.Alerts;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,7 +36,7 @@ public class SignInController {
 	private Label messageSucessLabel;
 	
 	@FXML
-	public void onBtnSignInAction() throws IOException {
+	public void onBtnSignInAction() {
 		String username = txtFieldUsername.getText();
 		String password = passwordField.getText();
 		User user = new User();
@@ -75,7 +75,7 @@ public class SignInController {
 			
 			Scene newScene = new Scene(parent);
 			
-			Main.getPrimaryStage().setScene(newScene);
+			App.getPrimaryStage().setScene(newScene);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
